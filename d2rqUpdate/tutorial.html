@@ -1,0 +1,254 @@
+<HTML>
+<HEAD>
+<TITLE>D2R/Update Server tutorial</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<link href="/styles/main.css" type="text/css" rel="stylesheet" />
+<link type="image/x-icon" rel="Shortcut Icon" href="/styles/images/favicon.ico" />
+</HEAD>
+<BODY>
+<table class="noborder">
+  <tr> 
+    <td class="noborder"> <a href="http://www.cs.technion.ac.il"><img src="/styles/images/cs_logo_small" ></a></div></td>
+    <td class="noborder"> 
+	<h2>
+Computer Science Department, Technion - Israel Institute of Technology, Haifa, Israel</h2>
+    </td>
+  </tr>
+</table>
+<hr>
+
+<H1>D2R/Update Server tutorial</H1>
+<H3> Author: <a href="http://www.cs.technion.ac.il/~eisenv/">Vadim Eisenberg</a></H3>
+
+The following tutorial describes how to use the example database and mapping that appear in the <a href="http://d2rq.org/d2rq-language">D2RQ Mapping Language</a> , 
+
+for executing <a href="http://www.w3.org/TR/2009/WD-sparql11-update-20091022/">SPARQL/Update</a> statements using <a href="http://d2rqupdate.cs.technion.ac.il/"> D2R/Update Server</a>. See also <a href="http://sw.cs.technion.ac.il/d2rq/tutorial"> D2R Server tutorial </a>
+<ol>
+<li> Download and uncompress D2R/Update Server and required jars
+<ol>
+<li>
+<a href="downloads/d2r-update-server.zip"> http://d2rqupdate.cs.technion.ac.il/downloads/d2r-update-server.zip </a> 
+or 
+<a href="downloads/d2r-update-server.tar.gz"> http://d2rqupdate.cs.technion.ac.il/downloads/d2r-update-server.tar.gz </a> 
+</li>
+<li>
+Extract the d2r-update-server directory
+</li>
+<li>
+Download <a href="http://sourceforge.net/projects/jsqlparser/">JSqlParser</a> from <a href="http://sourceforge.net/projects/jsqlparser/"> http://sourceforge.net/projects/jsqlparser/</a>
+</li>
+<li>
+Extract the jsqlparser directory (no matter to which location).
+</li>
+<li>
+Copy lib/jsqlparser.jar from the directory of jsqlparser to the lib directory inside the root directory of D2R/Update Server (the extracted directory <em>d2r-update-server</em>)
+</li>
+<li>
+Download <a href="http://www.jgrapht.org/">JGraphT</a> from <a href="http://www.jgrapht.org/">http://www.jgrapht.org/ </a>
+<ul>
+<li>
+For Windows: 
+<ol>
+<li>
+<a href="http://sourceforge.net/projects/jgrapht/files/JGraphT/Version%200.8.1/jgrapht-0.8.1.zip/download">http://sourceforge.net/projects/jgrapht/files/JGraphT/Version%200.8.1/jgrapht-0.8.1.zip/download</a>
+</li>
+<li>
+Extract the jgrapht directory (no matter to which location).
+</li>
+</ol>
+</li>
+<li>
+For other OS: 
+<ol>
+<li>
+<a href="http://sourceforge.net/projects/jgrapht/files/JGraphT/Version%200.8.1/jgrapht-0.8.1.tar.gz/download">http://sourceforge.net/projects/jgrapht/files/JGraphT/Version%200.8.1/jgrapht-0.8.1.tar.gz/download</a>
+</li>
+<li>
+<pre>$ tar xfz jgrapht-0.8.1.tar.gz</pre>
+</li>
+</ol>
+</li>
+</ul>
+<li>
+Copy the jgrapht-jdk1.6.jar from the directory of the jgrapht to the lib directory inside the root directory of D2R/Update Server. 
+</li>
+</ol>
+<li>The steps 2-9 are identical to the steps in the <a href="http://sw.cs.technion.ac.il/d2rq/tutorial"> D2R Server tutorial </a>. You can use the same database and the same mapping that you used in <a href="http://sw.cs.technion.ac.il/d2rq/tutorial"> D2R Server tutorial </a>, D2R/Update Server runs exactly in the same manner with exactly the same input.
+<br/>
+Download a dump of an example database (with some entries from the ISWC 2002 conference): <a href="http://www4.wiwiss.fu-berlin.de/bizer/D2RQ/example/iswc-mysql.sql">http://www.d2rq.org/example/iswc-mysql.sql</a></li>
+<li>Create a database "iswc" in MySQL</li>
+<li>Feed the downloaded iswc-mysql.sql into mysql by running (you should specify the full path of the downladed iswc-mysql.sql if you run mysql in another directory): 
+<pre>$ mysql -u [username] -p[password] < iswc-mysql.sql</pre> 
+</li>
+<li>Check that the database was created OK. In MySql run, for example:
+<pre>show tables;</pre>
+and
+<pre>select FirstName, LastName, email from persons;</pre>
+<img src="tutorial_files/mysql_original"></img>
+</li>
+<li> Download the example mapping file <a href="tutorial_files/mapping-iswc.ttl">mapping-iswc.ttl</a></li>
+<li> Change the username in the downloaded mapping file to be your mysql username and add a password of your mysql (if the password is required for your mysql)
+<p>
+<img src="tutorial_files/mapping"></img>
+</li>
+<li> Run d2r-server in the directory you uncompressed it in the step 1 (you should specify the full path of the mapping-iswc.ttl if you run mysql in another directory): 
+<pre>d2r-server -p 8080 mapping-iswc.ttl</pre>
+<img src="tutorial_files/d2r-server"></img>
+</li>
+<li> Open the following URL with your web browser: <a href="http://localhost:8080/snorql/">http://localhost:8080/snorql/</a> . You will see the same snorql webpage, except for the new section for input of SPARQL/Update statements.
+<p>
+<img src="tutorial_files/snorql"></img>
+</li>
+<li> Run an example SPARQL query. Write the query into the text of the <em>SPARQL</em> section and push the <em>"Go!"</em> button. You will see the results of the query in the <em>SPARQL results</em> section.
+The following query returns the phone number of Yolanda Gil:
+
+<pre>
+SELECT ?phone WHERE { 
+   ?person foaf:name 'Yolanda Gil'; 
+           iswc:phone ?phone 
+}
+</pre> 
+<img src="tutorial_files/snorql2.PNG"></img>
+<br/>
+Verify that the phone number returned by the query is indeed the phone number in the database. Run the following SQL query:
+<pre>
+SELECT Phone FROM persons WHERE FirstName = 'Yolanda' AND LastName = 'Gil';
+</pre>
+<img src="tutorial_files/mysql1.PNG"></img>
+</li>
+<li>
+Finally, the real action begins ! Let's change the number of Yolanda Gil to some other number, for example 222-222-2222, by running the following SPARQL/Update statement:
+<pre>
+MODIFY DELETE { 
+       ?person iswc:phone '310-448-8794'
+}
+INSERT { 
+       ?person iswc:phone '222-222-2222'
+}
+WHERE {
+       ?person foaf:name 'Yolanda Gil'   
+}
+</pre>
+Write this statement into the input area for SPARQL/Update:
+<br/>
+<img src="tutorial_files/snorql3.PNG"></img>
+<br/>
+Push the <em>Go!</em> button <u>under the SPARQL/Update input area</u>. You will see the SPARQL/Update statement disappears and the SPARQL result is updated to the new value.
+<img src="tutorial_files/snorql4.PNG"></img>
+<br/>
+Let's verify that the phone number has indeed been changed in the database. Run the previous SQL query:
+</pre>
+<br/>
+<img src="tutorial_files/mysql2.PNG"></img>
+<br/>
+Bingo ! The phone number is 222-222-2222, as was intended.
+</li>
+<li>
+Let's try to delete the phone number of Yolanda Gil. Run the following SPARQL/Update statement:
+<pre>
+DELETE { 
+       ?person iswc:phone '222-222-2222'
+}
+
+WHERE {
+       ?person foaf:name 'Yolanda Gil'   
+}
+</pre>
+You will see that <em>SPARQL Result </em> has changed to "no results":
+<br/>
+<img src="tutorial_files/snorql5.PNG"></img>
+<br/>
+Verify that the phone number has been deleted (set to NULL) - run the previous SQL query:
+<br/>
+<img src="tutorial_files/mysql3.PNG"></img>
+</li>
+<li>
+Now we can insert a phone number for Yolanda Gil (let's return the previous number back) by running the following SPARQL/Update statement:
+<pre>
+INSERT { 
+       ?person iswc:phone '310-448-8794'
+}
+WHERE {
+       ?person foaf:name 'Yolanda Gil'   
+}
+</pre>
+Please note that we could have combined the previous two steps into one MODIFY-DELETE-INSERT statement:
+<pre>
+MODIFY DELETE { 
+       ?person iswc:phone '222-222-2222'
+}
+INSERT { 
+       ?person iswc:phone '310-448-8794'
+}
+WHERE {
+       ?person foaf:name 'Yolanda Gil'   
+}
+</pre>
+</li>
+<li>
+Let's see what happens if we try to insert an additional phone number to Yolanda Gil. SPARQL/Update considers the properties of a table that has primary keys, as <em>functional</em>, that means that such property can have only one value. 
+So if we try to INSERT a new value without deleting the previous one by DELETE statement, SPARQL/Update will return an error:
+<br/>
+<img src="tutorial_files/snorql6.PNG"></img>
+</br>
+That means that in order to insert a new value (for a functional property) we have to delete the previous value, in two separate statements - DELETE and INSERT, or in one combined statement MODIFY-DELETE-INSERT.
+</li>
+<li>
+We can insert a whole new row, or several rows into several tables, by one insert statement. Let's insert some information about Richard Cyganiak by the following SPARQL/Update statement:
+<pre>
+INSERT {
+&lt;http://localhost:8080/resource/persons/14&gt; rdf:type iswc:Researcher;
+                                            foaf:name 'Richard Cyganiak';
+		                            iswc:address 'Office 102, Deri Galway';
+				            foaf:mbox &lt;mailto:Richard.Cyganiak@fakemail.com&gt;;
+				            foaf:homepage &lt;http://richard.cyganiak.de&gt;;
+			                    iswc:phone '777-77-7777';
+			                    iswc:research_interests &lt;http://localhost:8080/resource/topics/5&gt;;
+			                    iswc:research_interests &lt;http://localhost:8080/resource/topics/10&gt; 
+}
+</pre>
+We have assigned Richard the URI &lt;http://localhost:8080/resource/persons/14&gt; that corresponds to PerID 14.
+Let's see that the information about Richard has been added to the <em>persons</em> and to the <em>rel_person_topic</em> tables:
+<br/>
+<img src="tutorial_files/mysql4.PNG"></img>
+</li>
+<li>
+We can delete several rows from several tables in one DELETE statement. Let's delete the previously inserted information by the corresponding DELETE statement:
+<pre>
+DELETE {
+&lt;http://localhost:8080/resource/persons/14&gt; rdf:type iswc:Researcher;
+                                            foaf:name 'Richard Cyganiak';
+		                            iswc:address 'Office 102, Deri Galway';
+				            foaf:mbox &lt;mailto:Richard.Cyganiak@fakemail.com&gt;;
+				            foaf:homepage &lt;http://richard.cyganiak.de&gt;;
+			                    iswc:phone '777-77-7777';
+			                    iswc:research_interests &lt;http://localhost:8080/resource/topics/5&gt;;
+			                    iswc:research_interests &lt;http://localhost:8080/resource/topics/10&gt; 
+}
+</pre>
+Let's see that all the information about Richard has been deleted from both the <em>persons</em> and the <em>rel_person_topic</em> tables:
+<br/>
+<img src="tutorial_files/mysql5.PNG"></img>
+<br/>
+Please note that the order of the triples in the ISNERT or DELETE statements is unimportant - the D2RQ/Update groups the triples by subject and table in order to perform as little SQL INSERT/UPDATE/DELETE operations as possible, one operation per one row in a table. So, for example, the last SPARQL/Update DELETE statement of eight triples is performed by only three SQL DELETE statements. You can see which SQL statements are executed by D2R/Update Sever in the DEBUG log printings of <em>ExecutionEngine</em>:
+<br/>
+<img src="tutorial_files/d2r-server2.PNG"></img>
+<br/>
+In addition, D2RQ/Update executes SQL INSERT/UPDATE/DELETE operations according to foreign key dependencies between tables. Please note that the last DELETE operations were executed first on the <em>rel_person_topic</em> table and second on <em>persons</em> table, disregarding the original order of the triples in the SPARQL/Update DELETE statement.
+Such order was chosen by D2RQ/Update since there is a foregn key dependecy from the <em>PersonId</em> column of <em>rel_person_topic</em> table on the column <em>PerID </em> of the <em>persons</em> table.
+</li>
+<li>
+You can see more examples of SPARQL/Update statements on the example database in the functional tests of D2RQ/Update - <a href="http://dbsw.cs.technion.ac.il/svn/d2rqUpdateDBUnitTests/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests/">http://dbsw.cs.technion.ac.il/svn/d2rqUpdateDBUnitTests/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests/</a>. You can browse the Java code of the tests and see SPARQL/Update statements in calls to the <em>sparqlUpdate</em> method.
+</li>
+</ol>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4364350-3");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</HTML>

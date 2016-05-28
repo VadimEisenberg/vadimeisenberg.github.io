@@ -1,0 +1,167 @@
+<HTML>
+<HEAD>
+<TITLE>Algorithm of D2RQ/Update - a prototype extension of D2RQ for SPARQL/Update</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<link href="/styles/main.css" type="text/css" rel="stylesheet" />
+<link type="image/x-icon" rel="Shortcut Icon" 
+  href="/styles/images/favicon.ico" />
+</HEAD>
+<BODY>
+
+<table class="noborder">
+  <tr> 
+    <td class="noborder"> <a href="http://www.cs.technion.ac.il"><img src="/styles/images/cs_logo_small.jpg" ></a></div></td>
+    <td class="noborder"> 
+	<h2>
+Computer Science Department, Technion - Israel Institute of Technology, Haifa, Israel</h2>
+    </td>
+  </tr>
+</table>
+<hr>
+
+<H1>D2RQ/Update - The Algorithm</H1>
+<H3> Author: <a href="http://www.cs.technion.ac.il/~eisenv/">Vadim Eisenberg</a> 
+</H3>
+<H1> The main points</H1>
+<ul>
+<li>Several added/deleted triples in the INSERT/DELETE statements are grouped together per subject, where possible, in order to execute such groups as one SQL INSERT/UPDATE/DELETE statement</li>
+<li>When triples with the same subject and property appear in both DELETE and INSERT parts, DELETE and INSERT can be translated into one SQL Update operation</li>
+<li>When an INSERT operation is done on tuples that have foreign key dependecies between them, the inserted triples are sorted in reverse topological order according to the dependencies between the attributes</li> 
+
+<li>The triples of the DELETE statements are sorted in the direct topological order according to the foreign key dependencies between the attirbutes</li> 
+
+<li>When a SPARQL/Update DELETE statement of a triple representing non-nullable attribute, is submitted, an error message is returned. Such a triple can be deleted as part of a DELETE statement that deletes all the triples representing a row, effectively deleting the whole row. Alternatively, a triple representing non-nullabale attribute can be deleted as part of (MODIFY) DELETE/INSERT statement, if the non-nullable attribute receives a new value in the INSERT part
+</li>
+</ul>
+<hr/>
+
+<H1> The basic algorithm for translating SPARQL/Update statements into SQL statements</H1>
+Let t be a table with attributes A, B, C, D , that are translated to RDF properties a, b, c, d.
+<ol> 
+<li>
+Considering the case of a table with key attributes A and B. We assume that the properties a, b, c, d are functional, that means they can have at most one value.
+<ol>
+<li>INSERT DATA { s1 c o1 . s1 d 02 }
+<ol>
+<li>if no rows that correspond to the inserted subject exist, the INSERT will be translated into SQL Insert operation: INSERT INTO t(a, b, c, d) values (PART_A(s1), PART_B(s1), o1, o2), where PART_A and PART_B are functions mapping from the URI of an RDF subject to the value of the key attributes. Implied triples for the key arguments { s1 A PART_A(s1)  . s1 B PART_B(s1) } are added this way.
+The test if the row corresponding to the inserted triples already exists will be done by the following SELECT:
+SELECT * FROM t WHERE A = PART_A(s1) AND B = PART_B(s1) LIMIT 1
+</li>
+<li>if a row that corresponds to the inserted subject already exists, the INSERT will be translated into SQL Update operation: UPDATE t set C=o1, D=o2 WHERE A = PART_A(s1) AND B = PART_B(s1) AND (C = NULL or C=o1) AND (D = NULL  or D = o2). This operation will update nothing if either C or D attributes contain previous values different from the values being inserted, in accordance to the success/failure policy of SPARQL/Update: <em>"Operations all result either in success or failure"</em> - <a href="http://www.w3.org/TR/sparql11-update/#sec_updateLanguage">http://www.w3.org/TR/sparql11-update/#sec_updateLanguage</a> 
+. We will consider the case of INSERTing a triple with a new value for a functional property as a failure of SPARQL/Update. There are comparisons of inserted values with old values, since it is not an error to insert existing triple: <em>"...a triple may be considered to be "processed" with no action if that triple already exists in the graph"</em> - <a href="http://www.w3.org/TR/sparql11-update/#t411">http://www.w3.org/TR/sparql11-update/#t411</a> . Consequently, if there is an attempt to update a key attribute, the operation will not update anything since the key attribute cannot be NULL.
+</li>
+</ol>
+</li>
+<li>DELETE
+<ol>
+<li>
+Non existent triples are simply filtered out before execution, since 
+deleting a nonexistent triple is not an error and must not be a failure: <em>"...a triple may be considered to be "processed" with no action if that triple did not exist in the graph."</em> - <a href="http://www.w3.org/TR/sparql11-update/#t412">http://www.w3.org/TR/sparql11-update/#t412</a>
+. So it is not a failure of SPARQL/Update DELETE DATA operation if any of the deleted triples did not exist. 
+</li>
+<li>
+deleting non-key and nullable attributes DELETE DATA { s1 c o1 . s2 d o2} will be translated into SQL Update operations: 
+UPDATE t set C=NULL WHERE A = PART_A(s1) AND B = PART_B(s1) AND C = o1
+UPDATE t set D=NULL WHERE A = PART_A(s1) AND B = PART_B(s1) AND D = o2
+Deleting a NON NULLABLE attribute will fail.
+(Improvement - consider combining the UPDATE operations)
+</li>
+<li>
+deleting a key or non-nullable attribute only if all the non-NULL values in a row, that are mapped to some property, in the row are being deleted - then the whole row is deleted
+</li>
+</ol>
+</li>
+<li>MODIFY DELETE { s1 c o1  } INSERT { s1 d 02new }, for triples that have different subjects and properties in DELETE and INSERT parts
+will be translated simply into two statements of the same SPARQL/Update request: DELETE { s1 c o1  }; INSERT { s1 d 02new } 
+</li>
+<li>
+MODIFY DELETE { s1 c o1 . s2 d o2  } INSERT { s1 c o1new . s1 d 02new }, for triples that have the same subject and property in DELETE and INSERT parts
+<ol>
+<li>if a row related to s1 does not exist, the statement will be translated into SQL INSERT as in the case 1.a.i (the deleted triples do not exist, so only INSERT part is executed)
+</li>
+<li>if a row related to s1 exists, the statement will be translated into UPDATE t set C=o1new, D=o2new WHERE A = PART_A(s1) AND B = PART_B(s1) AND (C = o1 OR C = NULL OR C=o1new) AND (D = o2 OR D = NULL OR D=o2new). That means that any attribute can be INSERTed if it has value NULL, or it has a value that is deleted in the DELETE part or it has the same value as the value being inserted
+</li>
+</ol>
+</li>
+</li>
+</ol>
+<li>
+The case of a table without primary keys is currently implemented for "link" tables - see below.
+</li>
+</ol>
+
+<hr/>
+<H1> The algorithm for updating "link" tables</H1>
+<em>Link</em> table is a table for representing n:m relations between rows. It is represented in D2RQ by <em>d2rq:join</em>.
+<p>For the following scenario:</p>
+<ul>
+<li>there are two tables: t1 and t2, and a "link" table</li>
+<li>rel_t1_t2 for representing n:m relations between the tuples in t1 and t2.</li>
+<li>t1 and t2 have primary key columns k1 and k2 respectively</li>
+<li>
+rel_t1_t2 has columns rk1 and rk2, that hold the values of the 
+columns k1 and k2 in the tables t1 and t2</li>
+</ul>
+Suppose the following triple is being added (v1, v2).
+
+INSERT will be handled in the following way:
+<ul>
+<li>SQL INSERT v1 into t1(k1)</li>
+<li>SQL INSERT v2 into t2(k2)</li>
+<li>SQL INSERT (v1,v2) into rel_t1_t2(rk1,rk2)</li>
+</ul>
+DELETE will not delete v1 and v2 from t1 and t2, respectively,
+but only (v1,v2) from rel_t1_t2
+
+<hr/>
+<H1> Handling d2rq:condition</H1>
+<ol>
+<li> When deleting a triple, the value of the column that participates in the condition on ClassMap, must not be deleted</li>
+<li> When deleting a triple and there is a column that participates in the condition on a PropertyBridge:
+<ol>
+<li>If no other columns appear in d2rq:pattern/uriPattern/join - that means that the value of the column in the condition produces the value of the triple alone, the value of the column must be deleted. This column must also be considered in test for deleting the whole row, if there is non null value in this column, the row must not be deleted</li>
+</ol>
+</li>
+</ol>
+
+<hr/>
+<H1> Not implemented features</H1>
+<ul>
+<li>Conditions other than equalities ('=') are ignored</li>
+<li> When a property is mapped to several columns under different conditions, it is not clear which column should be updated in the INSERT statement. For example, in the following mapping:
+
+<PRE>
+map:rel_paper_topic1 a d2rq:PropertyBridge;
+  d2rq:belongsToClassMap map:Papers;
+    d2rq:property skos:primarySubject;
+    d2rq:property skos:subject;
+    d2rq:refersToClassMap map:Topics;
+  d2rq:condition "rel_paper_topic.RelationType = 1";
+  d2rq:join "rel_paper_topic.PaperID = papers.PaperID";
+  d2rq:join "rel_paper_topic.TopicID = topics.TopicID";
+  .
+map:rel_paper_topic2 a d2rq:PropertyBridge;
+  d2rq:belongsToClassMap map:Papers;
+    d2rq:property skos:subject;
+    d2rq:refersToClassMap map:Topics;
+  d2rq:condition "rel_paper_topic.RelationType = 2";
+  d2rq:join "rel_paper_topic.PaperID = papers.PaperID";
+  d2rq:join "rel_paper_topic.TopicID = topics.TopicID";
+.
+</PRE>
+When a new triple with a property skos:subject is inserted, which RelationType should be written, '1' or '2'?
+</li>
+</ul>
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4364350-3");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</HTML>

@@ -1,0 +1,31 @@
+/*************************************
+ * This CSS handles the general site
+ * structure, menu and surroundings
+ *************************************/
+ 
+
+/* --------------------------------------------- Container box --- */
+#container {
+  text-align: left;
+  float: left;
+  width: 100%;
+  background: transparent url(images/banner_background.gif) repeat-x;
+}  
+
+#banner {
+  background: transparent url(images/banner_picture.gif) no-repeat top left;
+  font-size: 180%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding-top: 26px;
+  padding-left: 220px;
+  
+  /* The Box Model Hack to fix IE 5/5.5: */
+  width: 780px; /* for IE 5/5.5, don't you just love it? */
+  height: 69px;
+  voice-family: "\"}\""; 
+  voice-family:inherit;
+  width:560px; /* for the civilized world */
+  height: 43px;
+}
