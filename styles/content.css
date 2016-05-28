@@ -1,0 +1,719 @@
+/*************************************
+ * This CSS handles the actual content 
+ *************************************/
+  
+/* ------------------------------------------------------- Content --- */
+#content {
+  font-family: "Lucida Sans Unicode", Verdana, Sans-Serif;
+  color: black;
+  direction: ltr;
+  text-align: left;
+
+  padding: 10px 16px 10px 16px;
+  font-size: 100%;
+/* IE7 has a bug rendering Hebrew links in position:relative DIV 
+   therefore, DK commented it out
+  position: relative; */
+  
+  /* The Box Model Hack to fix IE 5/5.5: */
+  /**width: 620px;**/ /* for IE 5/5.5, don't you just love it? */
+/**  voice-family: "\"}\""; 
+  voice-family:inherit;
+  width: 588px;**/ /* for the civilized world */
+
+}
+
+#content h1 {
+  font-family: "Trebuchet MS", Arial, Sans-Serif;
+  font-size: 150%;
+  font-weight: normal;
+  color: #113366;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+#content h2 {
+  font-family: "Trebuchet MS", Arial, Sans-Serif;
+/*  font-weight: bold;   */
+  font-size: 120%;
+  color: #113366;
+  clear: both;
+  margin-bottom: 0.1em;
+  text-transform: capitalize;
+}
+#content h3 {
+  font-family: "Trebuchet MS", Arial, Sans-Serif;
+/*  font-weight: bold; */
+  font-size: 100%;
+  color: #113366;
+  clear: both;
+  margin-bottom: 0.1em;
+  margin-top: 0.5em;
+}
+
+#content ul {
+  list-style: none;
+}
+#content ul.bulleted {
+  list-style-image: url(images/listbullet.gif);
+  margin-left: 2em;
+}
+
+#content dl { width: 100%; } /* fixes IE/Win bug to display correctly in RTL mode */
+#content dl dt  { float: left; clear: left; }
+#content dl dd { margin-left: 7em;  }
+
+
+.newline {
+  clear: both;
+  margin-top: 1em;
+}
+
+.backlink {
+  float: left;  /* fixes IE bug in RTL mode */
+  background: white url(images/back_arrow.gif) no-repeat center left;
+  padding-left: 12px;
+  font-size: 90%;
+}
+
+/* ------------------------------------------------ Front page --- */
+#t-front-page #content h2 {
+  text-transform: uppercase;
+  border-bottom: 1px solid #999;
+  font-weight: bold;
+  color: #222;
+  background: white url(images/tri_bullet.gif) no-repeat center left;
+  padding-left: 12px;
+}
+
+#t-front-page #content li a {
+  color: #111;
+  background: white url(images/grey_more.gif) no-repeat center right;
+  padding-right: 12px;
+}
+#t-front-page #content li .eventtime {
+  color: #777;
+  font-size: 85%;
+}
+#t-front-page #content li .eventspeaker {
+  color: #357;
+  font-size: 85%;
+}
+
+#t-front-page #content li {
+  border-bottom: 1px dashed #CCC;
+  margin: 3px 0 6px 0;
+  padding-bottom: 3px;
+}
+
+#frontevents {
+  float: right;
+  width: 48%;
+}
+#frontnews {
+  width: 48%;
+  float: left;
+}
+
+.frontmore {
+  font-size: 90%;
+  float: right;
+}
+
+
+#mainpic {
+  text-align: center;
+  margin-bottom: 1em;
+}
+#mainpic img {
+  border-bottom: 2px solid #999;
+  border-right: 2px solid #999;
+  border-top: 2px solid #DDD;
+  border-left: 2px solid #DDD;
+}
+#mainpic .mainpicdesclink {
+  display: block;
+}
+#mainpic .mainpicdesclink a {
+  color: #333;
+  font-size: 90%;
+/*  font-family: Arial, Sans-Serif;*/
+}
+
+/* "mainpicdesclink   */
+
+
+/* ------------------------------------------------------ Tabs --- */
+
+ul.tabsnav {
+  position: relative;
+  float: left;
+  border-bottom: 1px solid #666;
+  width: 99%;
+  padding-left: 1%;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  background: #FAFAFA url(images/tabsshadow.gif) repeat-x bottom left;
+  }
+ul.tabsnav li {
+  float: left;
+  padding: 4px 7px 2px 7px;
+}
+#content ul.tabsnav li a {
+  color: black;
+  text-decoration: none;
+}
+ul.tabsnav li.selected {
+  font-weight: bold;
+  position: relative;
+  top: 1px;
+  border-top: 1px solid #CDCDCD;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border-left: 1px solid #AAA;
+  border-right: 1px solid #666;
+  background-color: white;
+}
+
+ul.tabsnav .inactive {
+  color: #999;
+}
+#content ul.tabsnav li a:link,#content  ul.tabsnav li a:visited { color: black; }
+#content ul.tabsnav li a:hover , #content ul.tabsnav li a:active { color: #369;  }
+
+
+/* --------------------------------------------- News & Events --- */
+#t-events-item-page #content dt {
+  font-weight: bold;
+  color: #222;
+}
+#t-events-item-page #content dd {
+  margin-bottom: 0.3em;
+}
+#t-events-item-page #content dl {
+  padding-top: 1em;
+}
+
+#t-events-item-page .item  , #t-news-item-page .item {
+  margin-bottom: 3em;
+  float: left;
+}
+
+#t-events-item-page .item img , #t-news-item-page .item img {
+  float: right;
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #DDD;
+  border-left: 1px solid #DDD;
+  padding: 6px;
+  margin-left: 6px;
+}
+
+.eventslist, .newslist {
+  clear: both;
+  color: #222;
+}
+
+.eventslist li, .newslist li {
+  margin-bottom: 20px;
+  border-bottom: 1px dotted #CCC;
+  padding-bottom: 10px;
+}
+#content .eventslist dl, #content .newslist dl {
+  margin-bottom: 0.5em;
+}
+#content .eventslist dd, #content .newslist dd {
+  margin-left: 6em;
+}
+
+.eventslist li img, .newslist li img {
+  float: right;
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #DDD;
+  border-left: 1px solid #DDD;
+  margin-left: 4px;
+  padding: 6px;
+}
+
+.pubdate{
+  font-style: italic;
+  font-size: 80%;
+  margin-left: 10px;
+  color: #444;
+}
+
+.fullversion {
+  font-size: 80%;
+}
+
+#t-colloq-page ul.bulleted {
+  margin-bottom: 1em;
+}
+
+
+/* ---------------------------------------------------- People --- */
+#t-people-directory table , #t-people-hours table, #t-people-staff table  {
+  clear: both;
+  width: 100%;
+  margin-bottom: 1.5em;
+}
+#t-people-directory table tr th , #t-people-hours table tr th, #t-people-staff table tr th {
+  border-bottom: 1px solid #999;
+  padding: 2px 5px;
+  margin: 0;
+  background-color: #FAFAFA;
+}
+#t-people-directory table tr td , #t-people-hours table tr td, #t-people-staff table tr td {
+  padding: 2px 5px;
+  border-bottom: 1px solid #F1F1F1;
+}
+
+table caption {
+  caption-side: top;
+  color: #336699;
+  font-size: 150%;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.obituarylink span {
+  display: none;
+}
+.obituarylink, .noobituarylink  {
+  display: block;
+  width: 22px;
+  height: 16px;
+  float: left;
+}
+.obituarylink {
+  background: white url(images/candle.gif) no-repeat center left;
+}
+
+
+.homelink span {
+  display: none;
+}
+.homelink, .nohomelink  {
+  display: block;
+  width: 22px;
+  height: 16px;
+  float: left;
+}
+.homelink {
+  background: white url(images/homepage.gif) no-repeat center left;
+}
+
+
+#t-people-faculty #content h2, #t-people-faculty-info #content h2 , #t-people-faculty-picture #content h2, #t-people-graduate-picture  #content h2 , #t-people-graduate  #content h2   {
+  background: #F4F4F4 url(images/grad.gif) repeat-y top right;
+  margin-bottom: 0.2em;
+  padding-left: 5px;
+  clear: both;
+/*  float: left;*/
+  width: 100%;
+}
+
+.moreinfo {
+  float: right;
+  font-size: 90%;
+}
+#t-people-faculty-info #content dl {
+  width: 80%;
+  float: left;
+}
+#t-people-faculty-info #content dl dt {
+  color: #222;
+}
+#t-people-faculty-info #content dl dd {
+  margin-left: 8em;
+  margin-bottom: 0.1em;
+}
+
+.personinfo {
+  clear: both;
+  margin-top: 10px;
+  border-bottom: 1px dashed #AAA;
+  padding-bottom: 14px;
+  float: left;
+  width: 100%;
+  display: inline;
+}
+.personinfo p {
+  clear: both;
+  font-size: 90%;
+}
+
+.personinfo .personphoto {
+  float: left;
+  margin: 0 20px 8px 0;
+}
+.personname {
+  font-weight: bold;
+}
+
+
+#content #personinfoitemlist  {
+  float: none;
+}
+#content #personinfoitemlist  dt.personinfoitem {
+  float: none;
+  clear: both;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: white url(images/tri_bullet.gif) no-repeat center left;
+  padding-left: 12px;
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 0.4em;
+}
+#content #personinfoitemlist dd {
+  margin-left: 0;
+  padding-bottom: 2em;
+}
+#content #personinfoitemlist dd dl      { float: none;      }
+#content #personinfoitemlist dd dl dd { margin-left: 8em; padding-bottom: 0; }
+#t-people-personal #content img.personphoto {
+  position: absolute;
+  margin-left: 40px;
+  padding: 10px;
+  padding-top: 0;
+  background: white;
+}
+#t-people-personal #content h1 {
+  border-bottom: 3px double #444;
+  padding-bottom: 3px;
+  padding-left: 130px;
+  margin: 40px 0 40px 0;
+  color: black;
+}
+.personchair {
+  float: right;
+  font-size: 90%;
+}
+
+#t-people-faculty h1, #t-people-faculty-picture h1 , #t-people-faculty-info h1, #t-people-graduate h1, #t-people-graduate-picture h1  {
+  margin-top: 6px;
+  border-bottom: 1px solid #999;
+  padding-top: 10px;
+  padding-bottom: 3px;
+}
+#viewbuttons {
+
+  margin: -52px 0 10px 14em;
+  padding-top: 1px;  /* Fixes IE's bug of doubling the margin in case two elements touch each other */
+  position: relative;
+  width: 500px; /* IE is even more stupid that you might guess, try without this line for a world of fun */
+}
+
+#viewbuttons li {
+  float: left;
+  margin-bottom: 1em;
+}
+
+#viewbuttons  a span {
+  display: none;
+}
+#viewbuttons  a  {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-right: 40px;
+}
+
+
+.peoplelist {
+  margin: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 1.5em;
+}
+
+.peoplelist li {
+  margin: 3px 0;
+  float: left;
+  width: 32%;
+  white-space: nowrap;
+}
+
+.peoplephotolist {
+  margin: 0;
+  width: 100%;
+  float: left;
+}
+.peoplephotolist li img {
+  display: block;
+}
+.peoplephotolist li {
+  float: left;
+  width: 16%;
+  height: 10em;
+}
+
+
+#indexname a     { background: transparent url(images/button_name_off.gif) no-repeat center left;     }
+#indexphotos a { background: transparent url(images/button_pic_off.gif) no-repeat center left;      }
+#indexinfo a     { background: transparent url(images/button_pic_info_off.gif) no-repeat center left; }
+#t-people-faculty                 #indexname a     { background: transparent url(images/button_name_on.gif) no-repeat center left;     }
+#t-people-faculty-picture #indexphotos a { background: transparent url(images/button_pic_on.gif) no-repeat center left;      }
+#t-people-faculty-info       #indexinfo a     { background: transparent url(images/button_pic_info_on.gif) no-repeat center left; }
+#t-people-graduate                 #indexname a     { background: transparent url(images/button_name_on.gif) no-repeat center left;     }
+#t-people-graduate-picture #indexphotos a { background: transparent url(images/button_pic_on.gif) no-repeat center left;      }
+ 
+
+#t-people-staff #content h2 {
+  margin-top: 1.5em;
+  background-color: #F4F4F4;
+  clear: both;
+  float: left;
+  width: 100%;
+} 
+
+#t-people-staff table {
+  clear: both;
+}
+#t-people-staff #content li {
+  float: left;
+  width: 30%;
+}
+
+.commasep li {
+  float: left;
+  padding-right: 4px;
+  margin-right: 4px;
+  background: white url(images/comma.gif) no-repeat bottom right;
+  white-space: nowrap;
+}
+
+.commasep li.last {
+  background: white;
+}
+
+#t-people-areas #content ul ul {
+  margin-bottom: 1.3em;
+  float: left;
+  width: 100%;
+}
+#t-people-areas #content ul ul ul {
+  margin-bottom: 0;
+  border: 0;
+}
+
+#t-people-areas #content h2 {
+  background: #F4F4F4 url(images/grad.gif) repeat-y top right;
+}
+
+#t-people-areas #content ul li {
+  clear: left;
+}
+#t-people-areas #content ul ul li {
+  clear: left;
+  margin-left: 2em;
+  list-style-type: disc;
+  margin-bottom: 0em;
+  padding-top: 0.25em;
+}
+#t-people-areas #content ul ul ul li {
+  font-size: 90%;
+  clear: none;
+  margin-left: 0;
+  padding-top: 0;
+  margin-top: 0;
+  list-style-type: none;
+}
+
+.publicationslist li {
+  list-style: none;
+  display: block;
+  background: white url(images/pubicon.gif) no-repeat top left;
+  padding-left: 22px;
+  padding-bottom: 0.5em;
+  padding-top: 0;
+  border-bottom: 1px dashed #DEDEDE;
+  margin-bottom: 0.7em;
+}
+.pubsource {
+  color: #777;
+}
+.pubauthors {
+  color: #027;
+}
+
+/*dank*/
+.alumni-gallery table { 
+  float: left;
+  margin: 0 5px 20px 0;
+}
+.alumni-gallery caption { 
+  font-size: 100%; 
+  font-weight: normal;
+  caption-side: top;
+}
+
+/* --------------------------------------------------- Courses --- */
+#t-courses #content h2 {
+  margin-top: 10px;
+  margin-bottom:3px;
+  font-size: 120%;
+  border-bottom: 1px dotted #DDD;
+}
+
+ul.courselist {
+  clear: both;
+}
+
+ul.courselist li {
+  margin-bottom: 10px;
+  border-bottom: 1px dotted #CCC;
+  padding-bottom: 5px;
+  position: relative;
+  width: 100%; /* for IE */
+}
+table.courselist tr td {
+    border-bottom-style: dotted;
+    border-bottom-width: 1px; 
+    border-bottom-color: #CCC; 
+ }
+  
+.doclink {
+  padding-left: 20px;
+  background: white url(images/doc.gif) no-repeat center left;
+  position: absolute;
+  right: 0px;
+}
+
+.PDFlink {
+  padding-left: 20px;
+  background: white url(images/pdficon.gif) no-repeat center left;
+}
+
+.URLlink {
+  padding-left: 20px;
+  background: white url(images/homepage.gif) no-repeat center left;
+}
+
+.UGlink {
+  background: white url(images/ug.gif) no-repeat center left;
+}
+
+.GIVENlink {
+  padding-left: 20px;
+  background: white url(images/given.gif) no-repeat center left;
+}
+
+
+/* --------------------------------------------- Photo Gallery --- */
+#t-photo-gallery #content img {
+  margin: 6px 6px 0 0;
+  padding: 3px;
+  border: 1px solid #CCC;
+}
+
+#t-photo-preview #content img {
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+  padding: 6px 0;
+  margin: 6px 0;
+}
+
+.photonav {
+  width: 100%;
+  float: left;
+  margin-top: 10px;
+}
+.photonav li {
+  margin-right: 12px;
+}
+
+.photolist li {
+  float: left;
+  margin: 4px;
+  padding: 1px;
+  border: 1px solid #CCC;
+}
+
+.photonavprev {  float: left;  padding-left: 20px;  background: white url(images/prev.gif) no-repeat center left; }
+.photonavnext {  float: left;  padding-right: 20px;  background: white url(images/next.gif) no-repeat center right; }
+.photonavprevoff {  float: left;  padding-left: 20px;  background: white url(images/prevoff.gif) no-repeat center left; }
+.photonavnextoff {  float: left;  padding-right: 20px;  background: white url(images/nextoff.gif) no-repeat center right; }
+.photonavfull {  float: right; padding-left: 20px;  background: white url(images/fullsize.gif) no-repeat center left; }
+.photocounter {  text-align: center;}
+
+
+/* ------------------------------------------- Generic Content --- */
+#t-generic-content #content h2 {
+  margin-top: 0.5em;
+}
+
+#t-generic-content #content ol {
+  margin-left: 30px;
+}
+
+#t-generic-content #content ol li {
+  list-style-type: decimal;
+  margin-bottom: 0.2em;
+}
+
+
+#t-generic-content #content ul , #t-generic-content #content ol {
+  margin-left: 20px;
+}
+
+#t-generic-content #content ul li {
+  list-style-type: disc;
+  margin-bottom: 0.2em;
+}
+#t-generic-content #content li { margin-top: 0.5em; }
+#t-generic-content #content li li { margin-top: 0; }
+
+#t-generic-content #content dl dt {
+  display: block;
+  font-weight: bold;
+  float: none;
+  margin-top: 1em;
+}
+#t-generic-content #content dl dd {
+  margin: 0 0 0.25em 0;
+}
+#t-generic-content #content table.fancy {
+  border-collapse: collapse;
+}
+#t-generic-content #content table.fancy th {
+  background-color: #F7F7F7;
+  font-weight: bold;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #CCC;
+}
+#t-generic-content #content table.fancy td {
+  border: 1px solid #CCC;
+  padding: 3px;
+}
+
+#t-generic-content #content table.bordered {
+  border-collapse: collapse;
+}
+#t-generic-content #content table.bordered td {
+  border: 1px solid #CCC;
+  padding: 2px;
+}
+
+#t-generic-content #content p {
+  margin-top: 0.5em;
+}
+
+#t-generic-content .alphalist {
+  list-style-type: lower-alpha;
+}
+
+#t-generic-content #content input,
+#t-generic-content #content textarea,
+#t-generic-content #content select {
+  border: 1px solid #666;
+  padding: 2px;
+  margin: 2px;
+}
+
+a.pdffile { background: transparent url(images/pdficon.gif) no-repeat center left; padding-left: 20px; }
+a.wordfile { background: transparent url(images/wordicon.gif) no-repeat center left; padding-left: 20px; }
+a.txtfile { background: transparent url(images/txticon.gif) no-repeat center left; padding-left: 20px; }
+a.pptfile { background: transparent url(images/ppticon.gif) no-repeat center left; padding-left: 20px; }

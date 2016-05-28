@@ -1,0 +1,123 @@
+BODY {
+    PADDING-RIGHT: 1em; PADDING-LEFT: 70px; BACKGROUND: white fixed no-repeat left top; PADDING-BOTTOM: 2em; MARGIN: 0px; COLOR: black; PADDING-TOP: 2em; FONT-FAMILY: sans-serif; line-height: 1.8em;
+}
+:link {
+    BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #00c
+}
+:visited {
+    BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #609
+}
+A:active {
+    BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #c00
+}
+A:link IMG {
+    BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+A:visited IMG {
+    BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+A IMG {
+    COLOR: white
+}
+
+@media All    
+{
+A IMG {
+    
+}
+    }
+TH {
+    FONT-FAMILY: sans-serif
+}
+TD {
+    FONT-FAMILY: sans-serif
+}
+H4 {
+    TEXT-ALIGN: left
+}
+H5 {
+    TEXT-ALIGN: left
+}
+H6 {
+    TEXT-ALIGN: left
+}
+H4 {
+    FONT: bold 100% sans-serif
+}
+H5 {
+    FONT: italic 100% sans-serif
+}
+H6 {
+    FONT: small-caps 100% sans-serif
+}
+.hide {
+    DISPLAY: none
+}
+DIV.head {
+    MARGIN-BOTTOM: 1em
+}
+DIV.head H1 {
+    CLEAR: both; MARGIN-TOP: 2em
+}
+DIV.head TABLE {
+    MARGIN-TOP: 2em; MARGIN-LEFT: 2em
+}
+P.copyright {
+    FONT-SIZE: small
+}
+P.copyright SMALL {
+    FONT-SIZE: small
+}
+
+@media Screen    
+{
+UNKNOWN {
+    BACKGROUND: #ffa
+}
+    }
+DT {
+    MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+DD {
+    MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+DT {
+    FONT-WEIGHT: bold
+}
+CODE {
+    FONT-FAMILY: monospace
+}
+
+@media Aural    
+{
+H1 {
+    stress: 20; richness: 90
+}
+h2 {
+    stress: 20; richness: 90
+}
+H3 {
+    stress: 20; richness: 90
+}
+.hide {
+    speak: none
+}
+P.copyright {
+    volume: x-soft; speech-rate: x-fast
+}
+DT {
+    pause-before: 20%
+}
+PRE {
+    speak-punctuation: code
+}
+}
+
+h1 { background: white; color: #005a9c; font: 170% sans-serif; margin-top: 3em; text-align: right; }
+h2 { background: white; color: #005a9c; font: 140% sans-serif; margin-top: 3em; text-align: right; }
+h3 { background: white; color: #005a9c; font: 120% sans-serif; margin-top: 3em; text-align: right; }
+pre { background: #ffec8b; line-height: 1.25em; padding: 1.3em 2em; direction:ltr;}
+ul.toc, ul.toc ul { list-style-type: none }
+ul.toc li { font-weight: bold; }
+ul.toc li li { font-weight: normal; }
+#doctype { margin-top: 1em; }
