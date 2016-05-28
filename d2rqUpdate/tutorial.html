@@ -12,14 +12,12 @@
 
 The following tutorial describes how to use the example database and mapping that appear in the <a href="http://d2rq.org/d2rq-language">D2RQ Mapping Language</a> , 
 
-for executing <a href="http://www.w3.org/TR/2009/WD-sparql11-update-20091022/">SPARQL/Update</a> statements using <a href="http://d2rqupdate.cs.technion.ac.il/"> D2R/Update Server</a>. See also <a href="http://vadimeisenberg.github.io/d2rq/tutorial.html"> D2R Server tutorial </a>
+for executing <a href="http://www.w3.org/TR/2009/WD-sparql11-update-20091022/">SPARQL/Update</a> statements using <a href="https://github.com/VadimEisenberg/d2rqUpdate"> D2R/Update Server</a>. See also <a href="http://vadimeisenberg.github.io/d2rq/tutorial.html"> D2R Server tutorial </a>
 <ol>
-<li> Download and uncompress D2R/Update Server and required jars
+<li> Download and uncompress D2R/Update Server and required jars.
 <ol>
 <li>
-<a href="downloads/d2r-update-server.zip"> http://d2rqupdate.cs.technion.ac.il/downloads/d2r-update-server.zip </a> 
-or 
-<a href="downloads/d2r-update-server.tar.gz"> http://d2rqupdate.cs.technion.ac.il/downloads/d2r-update-server.tar.gz </a> 
+Build <a href="https://github.com/VadimEisenberg/d2rUpdateServer">D2R/Update Server</a>
 </li>
 <li>
 Extract the d2r-update-server directory
@@ -63,7 +61,7 @@ For other OS:
 Copy the jgrapht-jdk1.6.jar from the directory of the jgrapht to the lib directory inside the root directory of D2R/Update Server. 
 </li>
 </ol>
-<li>The steps 2-9 are identical to the steps in the <a href="http://sw.cs.technion.ac.il/d2rq/tutorial"> D2R Server tutorial </a>. You can use the same database and the same mapping that you used in <a href="http://sw.cs.technion.ac.il/d2rq/tutorial"> D2R Server tutorial </a>, D2R/Update Server runs exactly in the same manner with exactly the same input.
+<li>The steps 2-9 are identical to the steps in the <a href="http://vadimeisenberg.github.io/d2rq/tutorial.html"> D2R Server tutorial </a>. You can use the same database and the same mapping that you used in <a href="http://vadimeisenberg.github.io/d2rq/tutorial.html"> D2R Server tutorial </a>, D2R/Update Server runs exactly in the same manner with exactly the same input.
 <br/>
 Download a dump of an example database (with some entries from the ISWC 2002 conference): <a href="http://www4.wiwiss.fu-berlin.de/bizer/D2RQ/example/iswc-mysql.sql">http://www.d2rq.org/example/iswc-mysql.sql</a></li>
 <li>Create a database "iswc" in MySQL</li>
@@ -228,7 +226,7 @@ In addition, D2RQ/Update executes SQL INSERT/UPDATE/DELETE operations according 
 Such order was chosen by D2RQ/Update since there is a foregn key dependecy from the <em>PersonId</em> column of <em>rel_person_topic</em> table on the column <em>PerID </em> of the <em>persons</em> table.
 </li>
 <li>
-You can see more examples of SPARQL/Update statements on the example database in the functional tests of D2RQ/Update - <a href="http://dbsw.cs.technion.ac.il/svn/d2rqUpdateDBUnitTests/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests/">http://dbsw.cs.technion.ac.il/svn/d2rqUpdateDBUnitTests/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests/</a>. You can browse the Java code of the tests and see SPARQL/Update statements in calls to the <em>sparqlUpdate</em> method.
+You can see more examples of SPARQL/Update statements on the example database in the functional tests of D2RQ/Update - <a href="https://github.com/VadimEisenberg/d2rqUpdateDBUnitTests/tree/master/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests">https://github.com/VadimEisenberg/d2rqUpdateDBUnitTests/tree/master/src/il/ac/technion/cs/d2rqUpdate/DBUnit/functionalTests</a>. You can browse the Java code of the tests and see SPARQL/Update statements in calls to the <em>sparqlUpdate</em> method.
 </li>
 </ol>
 <script type="text/javascript">
