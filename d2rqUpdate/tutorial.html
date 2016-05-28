@@ -74,20 +74,20 @@ Download a dump of an example database (with some entries from the ISWC 2002 con
 <pre>show tables;</pre>
 and
 <pre>select FirstName, LastName, email from persons;</pre>
-<img src="tutorial_files/mysql_original"></img>
+<img src="tutorial_files/mysql_original.PNG"></img>
 </li>
 <li> Download the example mapping file <a href="tutorial_files/mapping-iswc.ttl">mapping-iswc.ttl</a></li>
 <li> Change the username in the downloaded mapping file to be your mysql username and add a password of your mysql (if the password is required for your mysql)
 <p>
-<img src="tutorial_files/mapping"></img>
+<img src="tutorial_files/mapping.PNG"></img>
 </li>
 <li> Run d2r-server in the directory you uncompressed it in the step 1 (you should specify the full path of the mapping-iswc.ttl if you run mysql in another directory): 
 <pre>d2r-server -p 8080 mapping-iswc.ttl</pre>
-<img src="tutorial_files/d2r-server"></img>
+<img src="tutorial_files/d2r-server.PNG"></img>
 </li>
 <li> Open the following URL with your web browser: <a href="http://localhost:8080/snorql/">http://localhost:8080/snorql/</a> . You will see the same snorql webpage, except for the new section for input of SPARQL/Update statements.
 <p>
-<img src="tutorial_files/snorql"></img>
+<img src="tutorial_files/snorql.PNG"></img>
 </li>
 <li> Run an example SPARQL query. Write the query into the text of the <em>SPARQL</em> section and push the <em>"Go!"</em> button. You will see the results of the query in the <em>SPARQL results</em> section.
 The following query returns the phone number of Yolanda Gil:
