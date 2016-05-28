@@ -1,0 +1,199 @@
+<HTML>
+<HEAD>
+<TITLE>D2R Server tutorial</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<link href="/styles/main.css" type="text/css" rel="stylesheet" />
+<link type="image/x-icon" rel="Shortcut Icon" href="/styles/images/favicon.ico" />
+</HEAD>
+<BODY>
+<table class="noborder">
+  <tr> 
+    <td class="noborder"> <a href="http://www.cs.technion.ac.il"><img src="/styles/images/cs_logo_small" ></a></div></td>
+    <td class="noborder"> 
+	<h2>
+Computer Science Department, Technion - Israel Institute of Technology, Haifa, Israel</h2>
+    </td>
+  </tr>
+</table>
+<hr>
+
+<H1>D2R Server tutorial</H1>
+<H3> Author: <a href="http://www.cs.technion.ac.il/~eisenv/">Vadim Eisenberg</a></H3>
+
+The following tutorial describes how to use the example database and mapping that appear in the <a href="http://d2rq.org/d2rq-language">The D2RQ Mapping Language</a> .
+<ol>
+<li> Download and uncompress D2R Server
+<ul>
+<li>
+For Windows: 
+<ol>
+<li>
+<a href="http://sourceforge.net/projects/d2rq-map/files/D2R%20Server/v0.7%20%28alpha%29/d2r-server-0.7.zip/download">http://sourceforge.net/projects/d2rq-map/files/D2R%20Server/v0.7%20%28alpha%29/d2r-server-0.7.zip/download</a>
+</li>
+<li>
+Unzip the d2r-server-0.7 directory
+</li>
+</ol>
+</li>
+<li>
+For other OS: 
+<ol>
+<li>
+<a href="http://sourceforge.net/projects/d2rq-map/files/D2R%20Server/v0.7%20%28alpha%29/d2r-server-0.7.tar.gz/download">http://sourceforge.net/projects/d2rq-map/files/D2R%20Server/v0.7%20%28alpha%29/d2r-server-0.7.tar.gz/download</a>
+</li>
+<li>
+<pre>$ tar xfz d2r-server-0.7.tar.gz</pre>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Download a dump of an example database (with some entries from the ISWC 2002 conference): <a href="http://d2rq.org/example/iswc-mysql.sql">http://d2rq.org/example/iswc-mysql.sql</a></li>
+<li>Create a database "iswc" in MySQL</li>
+<li>Feed the downloaded iswc-mysql.sql into mysql by running (you should specify the full path of the downladed iswc-mysql.sql if you run mysql in another directory): 
+<pre>$ mysql -u [username] -p[password] < iswc-mysql.sql</pre> 
+</li>
+<li>Check that the database was created OK. In MySql run, for example:
+<pre>show tables;</pre>
+and
+<pre>select FirstName, LastName, email from persons;</pre>
+<img src="tutorial_files/mysql_original"></img>
+</li>
+<li> Download the example mapping file <a href="tutorial_files/mapping-iswc.ttl">mapping-iswc.ttl</a></li>
+<li> Change the username in the downloaded mapping file to be your mysql username and add a password of your mysql (if the password is required for your mysql)
+<p>
+<img src="tutorial_files/mapping"></img>
+</li>
+<li> Run d2r-server in the directory you uncompressed it in the step 1 (you should specify the full path of the mapping-iswc.ttl if you run mysql in another directory): 
+<pre>d2r-server -p 8080 mapping-iswc.ttl</pre>
+<img src="tutorial_files/d2r-server"></img>
+</li>
+<li> Open the following URL with your web browser: <a href="http://localhost:8080/snorql/">http://localhost:8080/snorql/</a>
+<p>
+<img src="tutorial_files/snorql"></img>
+</li>
+<li> Run an example SPARQL query. Write the query into the text of the <em>SPARQL</em> section and push the <em>"Go!"</em> button. You will see the results of the query in the <em>SPARQL results</em> section.
+The following query returns the names and the email addresses of all the people in the database. You can see that the results match the SQL query <em><b>select FirstName, LastName, email from persons;</b></em> that you ran in mysql
+<pre>
+SELECT DISTINCT ?name ?email WHERE {
+  ?person rdf:type foaf:Person.
+  ?person foaf:name ?name ;
+          foaf:mbox ?email
+}
+</pre> 
+<img src="tutorial_files/example_query"></img>
+</li>
+<li> Examples of additional SPARQL queries
+<ul>
+<li>
+Select people and topics of their interest:
+<pre>
+SELECT DISTINCT ?personName ?topicName  WHERE {
+  ?person rdf:type foaf:Person.
+  ?person foaf:name ?personName.
+  ?person iswc:research_interests ?topic.
+  ?topic rdfs:label ?topicName .
+} 
+</pre>
+</li>
+<li>
+Select persons whose research interests include Semantic Web:
+<pre>
+SELECT DISTINCT ?personName ?topicName  WHERE {
+  ?person rdf:type foaf:Person.
+  ?person foaf:name ?personName.
+  ?person iswc:research_interests ?topic.
+  ?topic rdfs:label ?topicName .
+  FILTER (?topicName = "Semantic Web")
+} 
+</pre>
+</li>
+<li>
+Select all organizations where the people interested in Semantic Web work:
+<pre>
+SELECT DISTINCT ?organizationName ?personName  WHERE {
+  ?person rdf:type foaf:Person.
+  ?person foaf:name ?personName.
+  ?person iswc:research_interests ?topic.
+  ?topic rdfs:label ?topicName .
+  FILTER (?topicName = "Semantic Web").
+  ?person iswc:has_affiliation ?organization .
+  ?organization rdfs:label ?organizationName
+} 
+</pre>
+</li>
+<li>
+Select people who wrote papers on the topic "Semantic Web"
+<pre>
+SELECT DISTINCT ?personName ?paperTitle  WHERE {
+  ?paper dc:creator ?person .
+  ?person foaf:name ?personName.
+  ?paper dc:title ?paperTitle  .
+  ?paper skos:subject ?topic.
+  ?topic rdfs:label ?topicName .
+  FILTER (?topicName = "Semantic Web")
+}
+</pre>
+</li>
+<li>
+Select people who wrote papers on topic that is not of their interest:
+<pre>
+SELECT DISTINCT ?personName ?paperTitle  ?paperTopicName WHERE {
+  ?paper dc:creator ?person .
+  ?person foaf:name ?personName.
+  ?paper dc:title ?paperTitle  .
+  ?paper skos:subject ?paperTopic.
+  ?paperTopic rdfs:label ?paperTopicName .
+  OPTIONAL { ?person iswc:research_interests ?personTopic . 
+              FILTER (?personTopic = ?paperTopic) }
+  FILTER ( !BOUND(?personTopic) )
+} 
+</pre>
+</li>
+<li>
+Select papers and their authors and organizations:
+<pre>
+SELECT DISTINCT ?paperTitle ?authorName ?organizationName WHERE {
+  ?paper dc:creator ?author .
+  ?author foaf:name ?authorName.
+  ?paper dc:title ?paperTitle  .
+  ?author iswc:has_affiliation ?organization .
+  ?organization rdfs:label ?organizationName
+}
+</pre>
+</li>
+<li>
+Select papers that were written by authors from different organizations:
+<pre>
+SELECT DISTINCT ?paperTitle ?authorName ?organizationName WHERE {
+  ?paper dc:creator ?author .
+  ?author foaf:name ?authorName.
+  ?paper dc:title ?paperTitle  .
+  ?author iswc:has_affiliation ?organization .
+  ?organization rdfs:label ?organizationName
+  OPTIONAL { ?paper dc:creator ?anotherAuthor .
+             ?anotherAuthor iswc:has_affiliation ?anotherOrganization .
+             FILTER(?anotherAuthor != ?author && 
+                    ?anotherOrganization != ?organization) }
+  FILTER ( BOUND(?anotherAuthor))
+}
+</pre>
+</li>
+
+</ul>
+</li>
+<li>
+And what if you want to update the data in the mapped database ? You can use <a href="http://www.w3.org/TR/2009/WD-sparql11-update-20091022/">SPARQL/Update</a> and <a href="http://d2rqupdate.cs.technion.ac.il/">D2RQ/Update and D2R/Update Server prototype extensions</a>. See the <a href="http://d2rqupdate.cs.technion.ac.il/tutorial">tutorial about D2RQ/Update and D2R/Update Server</a>.
+</li>
+</ol>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4364350-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</HTML>
